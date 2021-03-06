@@ -18,7 +18,11 @@ app.get('/', (req,res) => {
 });
 const turnServer = new Turn({
     // set options
-    authMech: 'none',
+    authMech: 'long-term',
+    credentials: {
+        username: 'turnclient',
+        credential: '$0mep@$$w0rd'
+    }
 });
 turnServer.start();
 server.listen(port, () => {
