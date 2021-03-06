@@ -7,7 +7,7 @@ module.exports = function (server) {
         cors: {
             origin: ["http://localhost:3000",
                 "http://10.0.0.195:3000",
-                "https://hamikadze.github.io/webrtc-chat/"],
+                "https://hamikadze.github.io"],
             methods: ["GET", "POST"]
         }
     });
