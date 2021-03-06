@@ -5,7 +5,9 @@ const {addUser, removeUser, getUser, hasUser, getUsersInRoom} = require("./users
 module.exports = function (server) {
     const io = socket_io(server, {
         cors: {
-            origin: ["http://localhost:3000", "http://10.0.0.195:3000"],
+            origin: ["http://localhost:3000",
+                "http://10.0.0.195:3000",
+                "https://hamikadze.github.io/webrtc-chat/"],
             methods: ["GET", "POST"]
         }
     });
