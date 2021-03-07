@@ -13,9 +13,7 @@ module.exports = function (server) {
     });
 
     io.on("connection", function (socket) {
-        console.log(`New connection`);
-
-        const onJoin = function (data) {
+        const onJoin = (data) => {
             try {
                 const {username, room} = JSON.parse(data);
                 const {error, user} = addUser({id: socket.id, name: username, room});
@@ -46,7 +44,7 @@ module.exports = function (server) {
             }
         }
 
-        const onSendMessage = function ({text}) {
+        const onSendMessage = ({text}) => {
             try {
                 const user = getUser(socket.id);
                 io.to(user.room).emit('message', newMessage({user, message: text}));
@@ -55,7 +53,7 @@ module.exports = function (server) {
             }
         }
 
-        const onRtcMessage = function (data) {
+        const onRtcMessage = (data) => {
             try {
                 const user = getUser(data.to);
                 if (data.to !== undefined && hasUser(data.to)) {
@@ -69,7 +67,7 @@ module.exports = function (server) {
             }
         }
 
-        const onDisconnect = function () {
+        const onDisconnect = () => {
             try {
                 const user = removeUser(socket.id);
 

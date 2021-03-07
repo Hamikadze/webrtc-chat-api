@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const signaling = require('./signalling-server');
+const signaling = require('./signalling');
 const bodyParser = require("body-parser");
 const http = require("http");
 const cors = require("cors");
