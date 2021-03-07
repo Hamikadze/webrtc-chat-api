@@ -57,15 +57,11 @@ module.exports = function (server) {
 
         const onRtcMessage = function (data) {
             try {
-                console.log(data);
-                const json = JSON.parse(data);
-                const user = getUser(json.to);
-                if (json.to !== undefined && hasUser(json.to)) {
-                    console.log(`RTCMessage to: ${json.to} from ${json.id}`);
-                    console.log([user, data]);
+                const user = getUser(data.to);
+                if (data.to !== undefined && hasUser(data.to)) {
                     io.sockets.to(user.id).emit("webrtc", data);
                 } else {
-                    console.log(`RTCMessage to all in room: ${socket.room} from ${json.id}`)
+                    console.log(`RTCMessage to all in room: ${socket.room} from ${data.id}`)
                     socket.broadcast.to(user.room).emit("webrtc", data);
                 }
             } catch (e) {
