@@ -45,10 +45,6 @@ module.exports = function (server) {
                 socket.broadcast.to(user.room).emit('message',
                     newServerMessage({message: `${user.name} has joined!`}));
 
-                /* Send to user request to create a new RTC connection */
-                socket.broadcast.to(user.room).emit('webrtc_new_peer',
-                    {user: 'SERVER', data: user});
-
                 /* Send to all users in room info about room */
                 io.to(user.room).emit('roomData', {
                     room: user.room,
@@ -73,6 +69,7 @@ module.exports = function (server) {
         * receives message from one user and forward it to another
         * message contains info to establish connections between peers via webRTC
         * like data about offer, answer, candidate (iceCandidate)
+        * or send to other users in room request to create a new RTC connection
         */
         const onRtcMessage = (data) => {
             try {
@@ -80,8 +77,9 @@ module.exports = function (server) {
                 if (data.to !== undefined && hasUser(data.to)) {
                     io.sockets.to(user.id).emit("webrtc", data);
                 } else {
-                    console.log(`RTCMessage to all in room: ${socket.room} from ${data.id}`)
-                    socket.broadcast.to(user.room).emit("webrtc", data);
+                    const _user = getUser(data.id);
+                    console.log(`RTCMessage to all in room: ${_user.room} from ${data.id}`)
+                    socket.broadcast.to(_user.room).emit("webrtc", data);
                 }
             } catch (e) {
                 console.error(e);
